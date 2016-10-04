@@ -45,17 +45,35 @@ spec = do
 
   describe "shouldBeNear" $ do
     it "succeeds if arguments are equal" $ do
-      1.23456789 `shouldBeNear` (1.23456789 :: Float)
+      1.0 `shouldBeNear` (1.0 :: Double)
+
+    it "succeeds if arguments are equal" $ do
+      let
+        actual :: Double
+        actual = 1.0 - 1e-15
+        expected = 1.0
+      print actual
+      print $ abs (expected - actual)
+      actual `shouldBeNear` expected
+
+    it "succeeds if arguments are equal" $ do
+      let
+        actual :: Double
+        actual = 1.0 + 1e-15
+        expected = 1.0
+      print actual
+      print $ abs (expected - actual)
+      actual `shouldBeNear` expected
 
     it "fails if arguments are not equal" $ do
-      (1.0 `shouldBe` (2.0 :: Float)) `shouldThrow` expectationFailed "expected: 2.0\n but got: 1.0"
+      (1.0 `shouldBe` (2.0 :: Double)) `shouldThrow` expectationFailed "expected: 2.0\n but got: 1.0"
 
     context "when expected is zero" $ do
       it "succeeds if one argument is zero and the other less than epsilon" $ do
-        (-1e-16 :: Float) `shouldBeNear` 0.0
+        (-1e-16 :: Double) `shouldBeNear` 0.0
 
     it "succeeds for large values near one another" $ do
-      1e20 `shouldBeNear` (1e20 + 1 :: Float)
+      1e20 `shouldBeNear` (1e20 + 1 :: Double)
 
     it "fails for large values not near each other" $ do
       (1.1e20 `shouldBeNear` (2.1e20 :: Double)) `shouldThrow` expectationFailed "expected: 2.1e20\n but got: 1.1e20"

@@ -90,7 +90,7 @@ actual `shouldBe` expected = expectTrue ("expected: " ++ show expected ++ "\n bu
 
 -- |
 -- @actual \`shouldBeNear\` expected@ sets the expectation that @actual@ be a
--- floating point value near @expected@. If either value is zero we check that
+-- floating point value near @expected@. If @expected@ is zero we check that
 -- the absolute difference is less than epsilon (1e-15) otherwise we check if
 -- the relative difference is less than epsilon.
 with_loc(shouldBeNear, (Show a, Ord a, Floating a) => a -> a -> Expectation)
