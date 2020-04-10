@@ -180,11 +180,11 @@ annotate msg = handle $ \(HUnitFailure loc exn) ->
   throwIO $ HUnitFailure loc $ case exn of
     Reason str ->
       Reason $ msg ++
-          if null str then str else ": " <> str
+          if null str then str else ": " ++ str
     ExpectedButGot mmsg expected got ->
       let
         mmsg' =
-          Just $ msg <> maybe "" (": " <>) mmsg
+          Just $ msg ++ maybe "" (": " ++ mmsg
       in
         ExpectedButGot mmsg' expected got
 
