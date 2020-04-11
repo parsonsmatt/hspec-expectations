@@ -184,7 +184,7 @@ annotate msg = handle $ \(HUnitFailure loc exn) ->
     ExpectedButGot mmsg expected got ->
       let
         mmsg' =
-          Just $ msg ++ maybe "" (": " ++ mmsg
+          Just $ msg ++ maybe "" (": " ++) mmsg
       in
         ExpectedButGot mmsg' expected got
 
