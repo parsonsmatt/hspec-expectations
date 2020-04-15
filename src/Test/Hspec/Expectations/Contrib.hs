@@ -7,8 +7,14 @@ module Test.Hspec.Expectations.Contrib (
 -- | (useful in combination with `shouldSatisfy`)
   isLeft
 , isRight
+-- * Annotating expectations
+, annotate
+
 ) where
 
+import           Test.HUnit.Lang (HUnitFailure(..), FailureReason(..))
+import Test.Hspec.Expectations (Expectation, HasCallStack)
+import           Control.Exception
 
 #if MIN_VERSION_base(4,7,0)
 import Data.Either
@@ -24,3 +30,36 @@ isRight :: Either a b -> Bool
 isRight (Left  _) = False
 isRight (Right _) = True
 #endif
+
+-- |
+-- If you have a test case that has multiple assertions, you can use the
+-- 'annotate' function to provide a string message that will be attached to
+-- the 'Expectation'.
+--
+-- @
+-- describe "annotate" $ do
+--   it "adds the message" $ do
+--     annotate "obvious falsehood" $ do
+--       True `shouldBe` False
+--
+-- ========>
+--
+-- 1) annotate, adds the message
+--       obvious falsehood
+--       expected: False
+--        but got: True
+-- @
+--
+-- @since 0.8.3
+annotate :: (HasCallStack) => String -> Expectation -> Expectation
+annotate msg = handle $ \(HUnitFailure loc exn) ->
+  throwIO $ HUnitFailure loc $ case exn of
+    Reason str ->
+      Reason $ msg ++
+          if null str then str else "\n" ++ str
+    ExpectedButGot mmsg expected got ->
+      let
+        mmsg' =
+          Just $ msg ++ maybe "" ("\n" ++) mmsg
+      in
+        ExpectedButGot mmsg' expected got

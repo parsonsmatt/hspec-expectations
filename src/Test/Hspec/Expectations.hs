@@ -22,9 +22,6 @@ module Test.Hspec.Expectations (
 , shouldNotContain
 , shouldNotReturn
 
--- * Annotating expectations
-, annotate
-
 -- * Expecting exceptions
 , shouldThrow
 
@@ -156,37 +153,6 @@ list `shouldNotContain` sublist = expectTrue errorMsg ((not . isInfixOf sublist)
 -- does not return @notExpected@.
 shouldNotReturn :: (HasCallStack, Show a, Eq a) => IO a -> a -> Expectation
 action `shouldNotReturn` notExpected = action >>= (`shouldNotBe` notExpected)
-
--- |
--- If you have a test case that has multiple assertions, you can use the
--- 'annotate' function to provide a string message that will be attached to
--- the 'Expectation'.
---
--- @
--- describe "annotate" $ do
---   it "adds the message" $ do
---     annotate "obvious falsehood" $ do
---       True `shouldBe` False
---
--- ========>
---
--- 1) annotate, adds the message
---       obvious falsehood
---       expected: False
---        but got: True
--- @
-annotate :: (HasCallStack) => String -> Expectation -> Expectation
-annotate msg = handle $ \(HUnitFailure loc exn) ->
-  throwIO $ HUnitFailure loc $ case exn of
-    Reason str ->
-      Reason $ msg ++
-          if null str then str else ": " ++ str
-    ExpectedButGot mmsg expected got ->
-      let
-        mmsg' =
-          Just $ msg ++ maybe "" (": " ++) mmsg
-      in
-        ExpectedButGot mmsg' expected got
 
 -- |
 -- A @Selector@ is a predicate; it can simultaneously constrain the type and
