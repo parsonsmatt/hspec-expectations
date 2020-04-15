@@ -53,7 +53,6 @@ module Test.Hspec.Expectations (
 
 import qualified Test.HUnit
 import           Test.HUnit ((@?=))
-import           Test.HUnit.Lang (HUnitFailure(..), FailureReason(..))
 import           Control.Exception
 import           Data.Typeable
 import           Data.List
