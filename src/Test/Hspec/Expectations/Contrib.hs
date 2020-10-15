@@ -13,7 +13,7 @@ module Test.Hspec.Expectations.Contrib (
 ) where
 
 import           Test.HUnit.Lang (HUnitFailure(..), FailureReason(..))
-import Test.Hspec.Expectations (Expectation, HasCallStack)
+import Test.Hspec.Expectations (Expectation)
 import           Control.Exception
 
 #if MIN_VERSION_base(4,7,0)
@@ -51,7 +51,7 @@ isRight (Right _) = True
 -- @
 --
 -- @since 0.8.3
-annotate :: (HasCallStack) => String -> Expectation -> Expectation
+annotate :: String -> Expectation -> Expectation
 annotate msg = handle $ \(HUnitFailure loc exn) ->
   throwIO $ HUnitFailure loc $ case exn of
     Reason str ->
