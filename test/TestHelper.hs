@@ -1,3 +1,5 @@
+{-# LANGUAGE FlexibleContexts #-}
+
 module TestHelper where
 
 import           Test.HUnit.Lang
