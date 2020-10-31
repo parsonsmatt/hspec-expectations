@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 14841a355f7e28e481c765fa94822c58d44bd9899a18abc50c0b3b870334a660
+-- hash: 6dec924bdfb03edee0a90af882ce2992b3136cfb1eafb31baad26c40fbfcf55e
 
 name:             hspec-expectations
 version:          0.8.2
@@ -53,8 +53,10 @@ test-suite spec
     , call-stack
     , nanospec
   other-modules:
+      Test.Hspec.Expectations.ContribSpec
       Test.Hspec.Expectations.MatcherSpec
       Test.Hspec.ExpectationsSpec
+      TestHelper
       Test.Hspec.Expectations
       Test.Hspec.Expectations.Contrib
       Test.Hspec.Expectations.Matcher

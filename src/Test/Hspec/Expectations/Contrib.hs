@@ -12,9 +12,9 @@ module Test.Hspec.Expectations.Contrib (
 
 ) where
 
-import           Test.HUnit.Lang (HUnitFailure(..), FailureReason(..))
-import Test.Hspec.Expectations (Expectation)
 import           Control.Exception
+import           Test.HUnit.Lang (HUnitFailure(..), FailureReason(..))
+import           Test.Hspec.Expectations (Expectation)
 
 #if MIN_VERSION_base(4,7,0)
 import Data.Either
@@ -59,7 +59,7 @@ annotate msg = handle $ \(HUnitFailure loc exn) ->
           if null str then str else "\n" ++ str
     ExpectedButGot mmsg expected got ->
       let
-        mmsg' =
+        annotatedMessage =
           Just $ msg ++ maybe "" ("\n" ++) mmsg
       in
-        ExpectedButGot mmsg' expected got
+        ExpectedButGot annotatedMessage expected got
